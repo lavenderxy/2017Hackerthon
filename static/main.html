@@ -5,6 +5,8 @@
   <link href="../css/main.css" rel="stylesheet" type="text/css"/>
   <script src="angular.min.js"></script>
   <script src="angular-route.min.js"></script>
+  <script src="../node_modules/pubnub/dist/web/pubnub.min.js"></script>
+  <script src='../node_modules/pubnub-angular/dist/pubnub-angular.min.js'></script>
   <meta charset="utf-8"/>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
@@ -151,8 +153,8 @@
           }
         }
 
-        generateChartTendency(shareData.result.session_sentiment);
-        generateChartMood(shareData.result.doc_emotions);
+        $scope.generateChartTendency(shareData.result.session_sentiment);
+        $scope.generateChartMood(shareData.result.doc_emotions);
 
       });
 
@@ -166,7 +168,7 @@
 
         $scope.channel = 'group-sentiment-analysis-channel';
         // Generating a random uuid between 1 and 100 using an utility function from the lodash library.
-        $scope.uuid = _.random(100).toString();
+        $scope.uuid = Math.random(100).toString();
         Pubnub.init({
               publish_key: 'pub-c-07ffa713-dc27-4444-94c6-57d2cad6ad3d',
               subscribe_key: 'sub-c-c7fe6ca4-f0ae-11e6-8e1d-02ee2ddab7fe',
@@ -192,58 +194,6 @@
         // Reset the messageContent input
         $scope.messageContent = '';
 
-      }
-
-      $scope.generateChartTendency = function(result){
-        var positive = result.positive.count;
-        var negative = result.negative.count;
-        var neutral = result.neutral.count;
-        var sum = positive + negative + neutral;
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
-
-          var data = google.visualization.arrayToDataTable([
-            ['Tendency', 'Percent'],
-            ['positive',    positive],
-            ['Negative',      negative],
-            ['Neutral',  neutral],
-          ]);
-
-          var options = {
-            title: 'Tendency (Total Score: )' + result.overall
-          };
-
-          var chart = new google.visualization.PieChart(document.getElementById('piechartTendency'));
-
-          chart.draw(data, options);
-        }
-      }
-
-      $scope.generateChartMood = function(result){
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
-
-          var data = google.visualization.arrayToDataTable([
-            ['Mood', 'Percent'],
-            ['anger',    result.anger],
-            ['disgust',      result.disgust],
-            ['fear',  result.fear],
-            ['joy',  result.joy],
-            ['sadness',  result.sadness],
-
-
-          ]);
-
-          var options = {
-            title: 'Mood'
-          };
-
-          var chart = new google.visualization.PieChart(document.getElementById('piechartMood'));
-
-          chart.draw(data, options);
-        }
       }
 
       });
