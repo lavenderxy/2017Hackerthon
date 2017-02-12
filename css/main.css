@@ -4,6 +4,10 @@ body{
   background-size: cover;
 }
 
+th, td {
+  color: white;
+}
+
 .sec{
   padding-bottom: 6px;
 }

@@ -27,7 +27,16 @@
           }).
           when('/routeSearchItemList',{
             templateUrl: 'searchItemList.html',
-            controller: 'searchItemCtrl'
+            controller: 'searchItemCtrl',
+            resolve: {
+              message: function(shareData){
+                shareData.items.then(function(response){
+                  return response;
+                }).catch(function(error){
+                  console.log(error);
+                });
+              }
+            }
           }).
           otherwise({
             redirectTo: '/routeMain'
@@ -49,6 +58,12 @@
 
           var e2 = document.getElementById("selectCommitee");
           var commitee = e2.options[e2.selectedIndex].value;
+
+          var searchKey = $scope.search;
+          shareData.items = $http({
+            method: "GET",
+            url: "https://congress.api.sunlightfoundation.com/bills/search?query=" + $scope.search
+          });
 
         }
       });

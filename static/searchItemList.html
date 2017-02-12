@@ -2,12 +2,27 @@
   <table class="table">
     <thead>
       <tr>
-        <th></th>
+        <th>bill_id</th>
+        <th>bill_type</th>
+        <th>chamber</th>
+        <th>commitee_ids</th>
+        <th>congress</th>
+        <th>introduced_on</th>
+        <th>title</th>
       </tr>
+
+
     </thead>
 
     <tbody>
-      <tr ng-repeat="item in items">
+      <tr ng-repeat="item in items.results">
+        <td>{{item.bill_id}}</td>
+        <td>{{item.bill_type}}</td>
+        <td>{{item.chamber}}</td>
+        <td>{{item.commitee_ids}}</td>
+        <td>{{item.congress}}</td>
+        <td>{{item.introduced_on}}</td>
+        <td>{{item.title}}</td>
       </tr>
     </tbody>
   </table>
