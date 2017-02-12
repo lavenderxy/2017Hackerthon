@@ -10,13 +10,14 @@
         <th>introduced_on</th>
         <th>title</th>
         <th>Tendency and Mood</th>
+        <th>Tags and Keywords</th>
       </tr>
 
 
     </thead>
 
     <tbody>
-      <tr ng-repeat="item in items.results">
+      <tr ng-repeat="item in items">
         <td>{{item.bill_id}}</td>
         <td>{{item.bill_type}}</td>
         <td>{{item.chamber}}</td>
@@ -25,6 +26,8 @@
         <td>{{item.introduced_on}}</td>
         <td>{{item.title}}</td>
         <td> <button type="button" class="btn btn-primary" ng-click="generateMood(item.urls.html)">Generate</button></td>
+        <td> <button type="button" class="btn btn-primary" ng-click="generateKeywords(item.urls.html)">Keywords</button></td>
+
       </tr>
     </tbody>
   </table>
@@ -32,7 +35,7 @@
   <div class="row">
     <div class="col-md-5 col-sm-5 col-xs-5"></div>
     <div class="col-md-2 col-sm-2 col-xs-2 text-center">
-      <a href="#/routeSearchPop">
+      <a href="#">
         <button type="button" class="btn btn-primary" ng-click="searchMain()">ANALYSIS</button>
       </a>
     </div>

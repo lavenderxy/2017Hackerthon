@@ -93,7 +93,7 @@
           $http.jsonp(url, {jsonpCallbackParam: 'callback'}).then(function(response) {
 
             shareData.items = response.data.results;
-            console.log(response);
+            console.log(shareData.items);
             $location.path( "/routeSearchItemList" );
           }).catch(function(err) {
             console.log(err);
@@ -167,16 +167,13 @@
       });
 
 
-      module.controller("searchItemCtrl", function($scope, shareData, Pubnub){
-
+      module.controller("searchItemCtrl", function($scope, shareData, Pubnub, $location){
+        console.log(shareData.items);
         $scope.items = shareData.items;
         $scope.url = "";
-        $scope.result;
-        $scope.generateMood = function(url){
-          $scope.url = url;
-        }
 
-        $scope.channel = 'group-sentiment-analysis-channel';
+        $scope.result;
+                $scope.channel = 'group-sentiment-analysis-channel';
         // Generating a random uuid between 1 and 100 using an utility function from the lodash library.
         $scope.uuid = Math.random(100).toString();
         Pubnub.init({
@@ -184,6 +181,47 @@
               subscribe_key: 'sub-c-c7fe6ca4-f0ae-11e6-8e1d-02ee2ddab7fe',
               uuid: $scope.uuid
             });
+        $scope.generateMood = function(url){
+          $scope.url = url;
+        //   if (!$scope.messageContent || $scope.messageContent === '') {
+        //     return;
+        // }
+        console.log('working');
+        Pubnub.publish({
+            channel: $scope.channel,
+            message: {
+                session_id: $scope.uuid,
+                'url': $scope.url
+            },
+            callback: function(m) {
+                console.log(m)
+                shareData.result = m;
+                console.log(m);
+                $location.path("/routeSearchPop");
+            }
+        });
+        Pubnub.subscribe({
+          channel: $scope.channel,
+          triggerEvents: ['callback'],
+          message: msgCallback
+        });
+        var msgCallback = function(payload) {
+          console.log(payload);
+          $scope.$apply(function() {
+            sharedData.result;
+          });
+        };
+        $scope.$on(Pubnub.getMessageEventNameFor($scope.chaneel), function(ngEvent, m) {
+          $scope.apply(function() {
+            $scope.messages.push(m)
+          });
+        });
+        // Reset the messageContent input
+        $scope.messageContent = '';
+
+        }
+
+
 
 
         $scope.sendMessage = function() {
@@ -198,7 +236,9 @@
                 'url': $scope.url
             },
             callback: function(m) {
+                console.log(m)
                 shareData.result = m;
+                console.log(m);
             }
         });
         // Reset the messageContent input
