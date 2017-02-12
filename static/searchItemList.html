@@ -9,6 +9,7 @@
         <th>congress</th>
         <th>introduced_on</th>
         <th>title</th>
+        <th>Tendency and Mood</th>
       </tr>
 
 
@@ -23,7 +24,18 @@
         <td>{{item.congress}}</td>
         <td>{{item.introduced_on}}</td>
         <td>{{item.title}}</td>
+        <td> <button type="button" class="btn btn-primary" ng-click="generateMood(item.urls.html)">Generate</button></td>
       </tr>
     </tbody>
   </table>
+
+  <div class="row">
+    <div class="col-md-5 col-sm-5 col-xs-5"></div>
+    <div class="col-md-2 col-sm-2 col-xs-2 text-center">
+      <a href="#/routeSearchPop">
+        <button type="button" class="btn btn-primary" ng-click="searchMain()">ANALYSIS</button>
+      </a>
+    </div>
+    <div class="col-md-5 col-sm-5 col-xs-5"></div>
+  </div>
 </div>
