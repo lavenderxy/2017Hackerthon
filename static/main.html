@@ -34,7 +34,7 @@
             templateUrl: 'searchItemList.html',
             controller: 'searchItemCtrl'
           }).
-          when('/routeSearchKeyword',{
+          when('/routeKey',{
             templateUrl: 'searchKeywords.html',
             controller: 'searchKeyCtrl'
           }).
@@ -170,6 +170,10 @@
 
       });
 
+      module.controller("searchKeyCtrl", function($scope, shareData, Pubnub, $location){
+
+      });
+
 
       module.controller("searchItemCtrl", function($scope, shareData, Pubnub, $location){
         console.log(shareData.items);
@@ -185,6 +189,7 @@
               subscribe_key: 'sub-c-c7fe6ca4-f0ae-11e6-8e1d-02ee2ddab7fe',
               uuid: $scope.uuid
             });
+
         $scope.generateMood = function(url){
           $scope.url = url;
         //   if (!$scope.messageContent || $scope.messageContent === '') {
@@ -252,9 +257,6 @@
 
       });
 
-      module.controller("searchKeyCtrl", function($scope, shareData, Pubnub, $location){
-        
-      });
 
   </script>
 
