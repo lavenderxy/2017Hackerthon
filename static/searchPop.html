@@ -1,8 +1,30 @@
 <div class="container">
   <div class="row">
-    <h2 align="center" style="color: white">Select Key Word</h2><br/>
+    <h2 align="center" style="color: white">Tendency and Mood</h2><br/>
   </div>
+
   <div class="row">
+    <div class="col-md-2 col-sm-2 col-xs-2"></div>
+
+    <div class="col-md-4 col-sm-4 col-xs-4" >
+      <div id= "piechartTendency" style="width: 900px; height: 500px;"></div>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-4" >
+      <div id= "piechartMood" style="width: 900px; height: 500px;"></div>
+    </div>
+    <div class="col-md-2 col-sm-2 col-xs-2"></div>
+  </div> <br />
+
+  <div class="row">
+    <div class="col-md-3 col-sm-3 col-xs-3"></div>
+
+    <div class="col-md-1 col-sm-1 col-xs-1" ng-repeat="word in keyWordsArr">
+      <button class="button rounded blue medium">{{word}}</button>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-3"></div>
+  </div>
+
+  <!-- <div class="row">
     <div class="col-md-3 col-sm-3 col-xs-3"></div>
 
     <div class="col-md-1 col-sm-1 col-xs-1" ng-repeat="word in words1">
@@ -46,6 +68,6 @@
     </a>
     </div>
     <div class="col-md-5 col-sm-5 col-xs-5"></div>
-  </div>
+  </div> -->
 
 </div>
