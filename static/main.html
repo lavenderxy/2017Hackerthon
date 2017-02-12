@@ -34,6 +34,10 @@
             templateUrl: 'searchItemList.html',
             controller: 'searchItemCtrl'
           }).
+          when('/routeSearchKeyword',{
+            templateUrl: 'searchKeywords.html',
+            controller: 'searchKeyCtrl'
+          }).
           otherwise({
             redirectTo: '/routeMain'
           });
@@ -245,6 +249,10 @@
         $scope.messageContent = '';
 
       }
+
+      });
+
+      module.controller("searchKeyCtrl", function($scope, shareData, Pubnub, $location){
 
       });
 
