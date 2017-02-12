@@ -3,7 +3,7 @@
 <head>
   <link href="../css/bootstrap.min.css" rel="stylesheet" media="screen"/>
   <link href="../css/main.css" rel="stylesheet" type="text/css"/>
-  <script src="angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
   <script src="angular-route.min.js"></script>
   <meta charset="utf-8"/>
 </head>
@@ -14,8 +14,7 @@
 
   <script>
     var module = angular.module("myApp", ['ngRoute']);
-    module.config(['$routeProvider',
-      function($routeProvider){
+    module.config(['$routeProvider', function($routeProvider) {
         $routeProvider.
           when('/routeMain',{
             templateUrl: 'searchMain.html',
@@ -27,16 +26,7 @@
           }).
           when('/routeSearchItemList',{
             templateUrl: 'searchItemList.html',
-            controller: 'searchItemCtrl',
-            resolve: {
-              message: function(shareData){
-                shareData.items.then(function(response){
-                  return response;
-                }).catch(function(error){
-                  console.log(error);
-                });
-              }
-            }
+            controller: 'searchItemCtrl'
           }).
           otherwise({
             redirectTo: '/routeMain'
@@ -51,7 +41,9 @@
         return factory;
       });
 
-      module.controller("searchMainCtrl", function($scope, shareData, $http){
+
+
+      module.controller("searchMainCtrl", function($scope, shareData, $http, $sce, $location){
         $scope.searchMain = function(){
           var e1 = document.getElementById("selectYear");
           var year = e1.options[e1.selectedIndex].value;
@@ -60,9 +52,18 @@
           var commitee = e2.options[e2.selectedIndex].value;
 
           var searchKey = $scope.search;
-          shareData.items = $http({
-            method: "GET",
-            url: "https://congress.api.sunlightfoundation.com/bills/search?query=" + $scope.search
+          shareData.keyWords = $scope.search;
+          var url = "https://congress.api.sunlightfoundation.com/bills/search?query=" + shareData.keyWords;
+          console.log(url);
+          url = $sce.trustAsResourceUrl(url);
+
+          $http.jsonp(url, {jsonpCallbackParam: 'callback'}).then(function(response) {
+
+            shareData.items = response.data.results;
+            console.log(response);
+            $location.path( "/routeSearchItemList" );
+          }).catch(function(err) {
+            console.log(err);
           });
 
         }
@@ -78,6 +79,7 @@
       });
 
       module.controller("searchItemCtrl", function($scope, shareData){
+        console.log(shareData.items);
         $scope.items = shareData.items;
       });
 
